@@ -2931,3 +2931,9 @@ div#snooze_until{
 }
 
 .ui-jqgrid tr.jqgrow td .bold { font-weight: bold; }
+
+label#unread_task {
+    font-size: 15px;
+    color: black;
+    margin: 0 95px
+}

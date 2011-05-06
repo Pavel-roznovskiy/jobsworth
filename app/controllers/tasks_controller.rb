@@ -368,6 +368,10 @@ class TasksController < ApplicationController
     render :partial => "nextTasks", :locals => { :count => params[:count].to_i }
   end
   
+  def unread_task   
+    TaskUser.update_all({:unread => 1}, {:task_id => params[:id], :user_id => current_user.id})
+    render :nothing => true
+  end
   
 protected
   def task_due_calculation(params, task, tz)

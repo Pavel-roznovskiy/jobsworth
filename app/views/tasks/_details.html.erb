@@ -33,4 +33,6 @@
   </div>
   <label for="task_status"><%= _("Resolution") %></label>
   <%= status_field(@task).html_safe %>
+
+  <label id="unread_task" task="<%= @task.id %>" title="<%= @task.task_num %>"><b>make unread</b></label>
 </fieldset>

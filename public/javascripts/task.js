@@ -550,3 +550,16 @@ jQuery(document).ready(function() {
 	  	);
 	});
 });
+
+jQuery(document).ready(function(){
+    jQuery('#unread_task').live('click', function(){
+      var idn=jQuery(this).attr('task');
+      var name=jQuery('#task_name').text();
+      var rowid=jQuery(this).attr('title');
+      jQuery.post("unread_task",
+      {id:idn},
+      'text');
+      jQuery('#task_list>tbody>tr#' + rowid).addClass('unread');
+      jQuery('#task_list>tbody>tr#' + rowid + '>td[title="' + name + '"]').html("<span class='bold'>" + name + "</span>");
+    });
+});
