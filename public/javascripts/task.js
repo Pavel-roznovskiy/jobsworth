@@ -72,7 +72,7 @@ function addUserToTask(event, ui) {
     var userId = ui.item.id;
     var taskId = jQuery("#task_id").val();
     var url = tasks_path('add_notification');
-    var params = { user_id : userId, id : taskId };
+    var params = {user_id : userId, id : taskId};
     addUser(url, params);
     jQuery(this).val("");
     return false;
@@ -85,7 +85,7 @@ function addUserToTask(event, ui) {
 */
 function addAutoAddUsersToTask(clientId, taskId, projectId) {
     var url = tasks_path("add_users_for_client");
-    var params = { client_id : clientId, id : taskId, project_id : projectId };
+    var params = {client_id : clientId, id : taskId, project_id : projectId};
     addUser(url, params);
 }
 
@@ -103,7 +103,7 @@ function addCustomerToTask(event, ui) {
     var taskId = jQuery("#task_id").val();
 
     var url = tasks_path("add_client");
-    var params = { client_id : clientId, id : taskId };
+    var params = {client_id : clientId, id : taskId};
     jQuery.get(url, params, function(data) {
                 jQuery("#task_customers").append(data);
     });
@@ -125,7 +125,7 @@ function addClientLinkForTask(projectId) {
 
     if (jQuery.trim(customers) == "") {
         var url = tasks_path("add_client_for_project");
-        var params = { project_id : projectId };
+        var params = {project_id : projectId};
         jQuery.get(url, params, function(data) {
             jQuery("#task_customers").html(data);
         });
@@ -184,8 +184,8 @@ function addNewTodoKeyListener(taskId) {
           jQuery('#todo-status-' + response.task_dom_id).html(response.todos_status);
           initSortableForTodos();
         },
-        beforeSend:function() { showProgress(); },
-        complete:function() { hideProgress(); }
+        beforeSend:function() {showProgress();},
+        complete:function() {hideProgress();}
       });
       key.stopPropagation();
       return false;
@@ -210,8 +210,8 @@ function todoOpenCloseCheckForUncreatedTask(done, sender) {
     success:function(response) {
       jQuery(sender).parent().replaceWith(response);
     },
-    beforeSend: function(){ showProgress(); },
-    complete: function(){ hideProgress(); },
+    beforeSend: function(){showProgress();},
+    complete: function(){hideProgress();},
     error:function (xhr, thrownError) {
       alert("Invalid request");
     }
@@ -295,9 +295,9 @@ function init_task_form() {
     jQuery('#snippet ul li').click(function() {
       var id = jQuery(this).attr('id');
       id = id.split('-')[1];
-      jQuery.ajax({ url: '/pages/snippet/'+id, type:'GET', success: function(data) {
+      jQuery.ajax({url: '/pages/snippet/'+id, type:'GET', success: function(data) {
         jQuery('#comment').val(jQuery('#comment').val() + '\n' + data);
-      } });
+      }});
     });
 
     jQuery('#add_milestone img').click(add_milestone_popup);
@@ -306,7 +306,7 @@ function init_task_form() {
     });
 
     jQuery('div.file_thumbnail a').slimbox();
-    jQuery(".datefield").datepicker({ constrainInput: false, dateFormat: userDateFormat});
+    jQuery(".datefield").datepicker({constrainInput: false, dateFormat: userDateFormat});
     updateTooltips();
     jQuery('div#target_date a#override_target_date').click(function(){
         jQuery('div#target_date').hide();
@@ -376,8 +376,8 @@ function remove_file_attachment(file_id, message) {
           flash_message(response.message);
         }
       },
-      beforeSend: function(){ showProgress(); },
-      complete: function(){ hideProgress(); },
+      beforeSend: function(){showProgress();},
+      complete: function(){hideProgress();},
       error:function (xhr, thrownError) {
         alert("Error : " + thrownError);
       }
@@ -454,8 +454,8 @@ function toogleDone(sender) {
       jQuery('.todo-container').html(response.todos_html);
       jQuery('#todo-status-' + response.task_dom_id).html(response.todos_status);
     },
-    beforeSend:function() { showProgress(); },
-    complete:function() { hideProgress(); }
+    beforeSend:function() {showProgress();},
+    complete:function() {hideProgress();}
   });
 }
 
@@ -468,8 +468,8 @@ function deleteTodo(todoId, taskId) {
       jQuery('#todo-status-' + response.task_dom_id).html(response.todos_status);
       jQuery('#todos-' + todoId).remove();
     },
-    beforeSend:function() { showProgress(); },
-    complete:function() { hideProgress(); }
+    beforeSend:function() {showProgress();},
+    complete:function() {hideProgress();}
   });
 }
 
@@ -482,7 +482,7 @@ function initSortableForTodos() {
         position.val(index+1);
         todos[index]= {id: jQuery('input#todo_id', element).val(), position: index+1} ;
       });
-      jQuery.ajax({ url: '/todos/reorder', data: {task_id: jQuery('input#task_id').val(), todos: todos }, type: 'POST' });
+      jQuery.ajax({url: '/todos/reorder', data: {task_id: jQuery('input#task_id').val(), todos: todos}, type: 'POST'});
     }
   });
 }
@@ -511,7 +511,7 @@ function showUsersToNotifyPopup() {
     return jQuery(this).val();
   }).get().join(",");
   var taskId = jQuery("#task_id").val();
-  if(jQuery('#users_to_notify_list ul').is(':visible')){ jQuery('#users_to_notify_list ul').slideToggle(); return false;}
+  if(jQuery('#users_to_notify_list ul').is(':visible')){jQuery('#users_to_notify_list ul').slideToggle();return false;}
   jQuery('#users_to_notify_list').load("/tasks/users_to_notify_popup?id=" + taskId + "&watcher_ids=" + watcherIds, function(){
     jQuery('#users_to_notify_list').children('ul').slideToggle();
     jQuery('#users_to_notify_list ul li a:first').focus();
@@ -524,7 +524,7 @@ function showUsersToNotifyPopup() {
     jQuery('#users_to_notify_list ul li a').click( function(){
       var userId = jQuery(this).attr("id").split("_")[1];
       var url = tasks_path('add_notification');
-      var params = { user_id : userId, id : taskId };
+      var params = {user_id : userId, id : taskId};
       addUser(url, params);
       jQuery('#users_to_notify_list ul').slideToggle();
       return false;
@@ -558,7 +558,10 @@ jQuery(document).ready(function(){
       var rowid=jQuery(this).attr('title');
       jQuery.post("unread_task",
       {id:idn},
-      'text');
+      function(asd){          
+            jQuery('ul.panel_content>li>a#unread').attr('class', 'unread');
+            jQuery('ul.panel_content>li>a#unread').html('My Unread Tasks (<span>' + asd + '</span>)');
+      });
       jQuery('#task_list>tbody>tr#' + rowid).addClass('unread');
       jQuery('#task_list>tbody>tr#' + rowid + '>td[title="' + name + '"]').html("<span class='bold'>" + name + "</span>");
     });

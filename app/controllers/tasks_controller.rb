@@ -368,9 +368,11 @@ class TasksController < ApplicationController
     render :partial => "nextTasks", :locals => { :count => params[:count].to_i }
   end
   
-  def unread_task   
-    TaskUser.update_all({:unread => 1}, {:task_id => params[:id], :user_id => current_user.id})
-    render :nothing => true
+  def unread_task
+    unless params[:id]==0
+      TaskUser.update_all({:unread => 1}, {:task_id => params[:id], :user_id => current_user.id})
+    end
+    render :text => TaskUser.where("user_id = ? AND unread = ?",current_user.id,1).count
   end
   
 protected

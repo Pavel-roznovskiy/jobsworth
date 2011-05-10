@@ -40,15 +40,14 @@ module TaskFilterHelper
     label = _("My Unread Tasks")
     link_params = { :task_filter => {
         :unread_only => true } }
-    TaskFilter.where("user_id = ? AND unread_only = ?",user.id,1).first ? count = 1 : count = 0
-    if count > 0
+    count_=TaskUser.where("user_id = ? AND unread = ?",user.id,1).count
+    if count_ > 0
       class_name = "unread"
-      label = _("#{ label } (%s)", count)
+      label = _("#{ label } (<span>%s</span>)", count_)
     end
-
-    return link_to(label,
+    return link_to((raw label),
                    update_current_filter_task_filters_path(link_params),
-                   :class => class_name)
+                   :class => class_name, :id => 'unread')
   end
 
   # Returns a link to allow the user to select the given

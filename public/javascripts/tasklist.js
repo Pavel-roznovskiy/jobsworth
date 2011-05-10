@@ -18,11 +18,21 @@ function getUserPreference(name) {
 }
 
 function selectRow(rowid) {
-        jQuery('#task_list').setCell(rowid, 'read', true);
-        console.log(rowid)
-        jQuery('#task_list>tbody>tr#' + rowid).removeClass('unread');
-        jQuery('#task_list>tbody>tr#' + rowid + ">td>span").removeClass('bold');
-        loadTask(rowid);
+    jQuery('#task_list').setCell(rowid, 'read', true);
+    jQuery('#task_list>tbody>tr#' + rowid).removeClass('unread');
+    jQuery('#task_list>tbody>tr#' + rowid + ">td>span").removeClass('bold');
+    loadTask(rowid);
+    jQuery.post("unread_task",
+    {id:0},
+    function(asd){
+        if(asd > 0){
+            jQuery('ul.panel_content>li>a>span').text(asd);
+        }else{
+            jQuery('ul.panel_content>li>a.unread').text('My Unread Tasks')
+            jQuery('ul.panel_content>li>a.unread').removeClass('unread');
+        }
+    });
+        
 }
 
 function setRowReadStatus(rowid, rowdata) {
