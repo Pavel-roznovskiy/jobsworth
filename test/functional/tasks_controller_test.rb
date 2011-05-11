@@ -2,12 +2,30 @@ require 'test_helper'
 
 class TasksControllerTest < ActionController::TestCase
   fixtures :users, :companies, :tasks, :customers, :projects, :properties, :property_values
-
 signed_in_admin_context do
   def setup
     @request.with_subdomain('cit')
   end
-
+  context "on POST unread_task" do
+    setup do
+      @task_1 = Task.find_by_weight(10)
+      @task_2 = Task.find_by_weight(20)
+      @task_3 = Task.find_by_weight(30)
+      @task_4 = Task.find_by_weight(50)
+      TaskUser.new(:user_id => @user.id, :task_id => @task_1.id).save
+      TaskUser.new(:user_id => @user.id, :task_id => @task_2.id).save
+      TaskUser.new(:user_id => @user.id, :task_id => @task_3.id).save
+      TaskUser.new(:user_id => @user.id, :task_id => @task_4.id, :unread => 1).save
+    end
+    should "should render number of unread tasks with ubdate tasks" do
+      post :unread_task, :id =>@task_1.id
+      assert_equal 2, TaskUser.where("user_id = ? AND unread = ?",@user.id,1).count
+    end
+    should "should render number of unread tasks" do
+      post :unread_task, :id => 0
+      assert_equal 1, TaskUser.where("user_id = ? AND unread = ?",@user.id,1).count
+    end
+  end
   context "on POST change_task_weight" do
     setup do
       @task_next = Task.find_by_weight(20)
