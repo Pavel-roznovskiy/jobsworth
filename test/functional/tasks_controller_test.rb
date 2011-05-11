@@ -17,7 +17,7 @@ signed_in_admin_context do
       TaskUser.new(:user_id => @user.id, :task_id => @task_3.id).save
       TaskUser.new(:user_id => @user.id, :task_id => @task_4.id, :unread => 1).save
     end
-    should "should render number of unread tasks with ubdate tasks" do
+    should "should render number of unread tasks with ubdate task" do
       post :unread_task, :id =>@task_1.id
       assert_equal 2, TaskUser.where("user_id = ? AND unread = ?",@user.id,1).count
     end
@@ -52,15 +52,15 @@ signed_in_admin_context do
     end
   end
 
-  context "on POST show_more_tasks" do
+  context "on POST :nextTasks" do
     setup do
       Task.all.each do |task|
         TaskUser.new(:user_id => @user.id, :task_id => task.id).save
       end
-      post :show_more_tasks, :count => 5
+      post :nextTasks, :count => 5
     end
     should respond_with(:success)
-    should respond_with_content_type('text/javascript')
+    should respond_with_content_type('text/html')
   end
 
   should "render :success on /edit" do
